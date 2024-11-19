@@ -48,6 +48,7 @@ void Q_Dis(int Q[], int front, int count)
     for (int i = 0; i < count; i++) {
         printf("%d\t", Q[(front + i) % SIZE]);
     }
+    printf("\n");
 }
 
 int main() {
@@ -63,15 +64,21 @@ int main() {
         scanf("%d", &choice);
     
         switch (choice) {
-            case 1: Q_Ins(Q, &rear, &count);
+            case 1: 
+                Q_Ins(Q, &rear, &count);
                 break;
-            case 2: Q_Del(Q, &front, &count);
+            case 2: 
+                Q_Del(Q, &front, &count);
                 break;
-            case 3: Q_Dis(Q, front, count);
+            case 3: 
+                Q_Dis(Q, front, count);
                 break;
-            case 4: exit(0);
-            default: printf("\nINVALID CHOICE\n");
+            case 4: 
+                exit(0);
+            default: 
+                printf("\nINVALID CHOICE\n");
         }
     }
-	return 0;
+
+    return 0;
 }

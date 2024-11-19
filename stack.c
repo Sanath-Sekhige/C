@@ -35,7 +35,7 @@ void display(int top, int stack[]) {
 
 int main()
 {
-	int stack[SIZE], choice, top = -1, val;
+	int stack[SIZE], choice, top = -1;
 
 	while(1) {
 		printf("\nSTACK OPERATIONS\n");
