@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 typedef struct Node {
     char ssn[20];
     char name[50];
     char dept[50];
     char designation[50];
-    float sal;
+    float salary;
     char phNo[15];
     struct Node* next;
     struct Node* prev;
@@ -26,7 +25,7 @@ NodePtr createNode() {
     printf("Enter Designation: ");
     scanf("%s", newNode->designation);
     printf("Enter Salary: ");
-    scanf("%f", &newNode->sal);
+    scanf("%f", &newNode->salary);
     printf("Enter Phone Number: ");
     scanf("%s", newNode->phNo);
     newNode->next = NULL;
@@ -36,7 +35,7 @@ NodePtr createNode() {
 
 NodePtr insertFront(NodePtr head) {
     NodePtr newNode = createNode();
-    if (head != NULL) {
+    if (head) {
         head->prev = newNode;
     }
     newNode->next = head;
@@ -65,8 +64,8 @@ NodePtr deleteFront(NodePtr head) {
     }
 
     NodePtr temp = head;
-    printf("\nDeleted Data: SSN: %s, Name: %s, Dept: %s, Designation: %s, Sal: %.2f, PhNo: %s\n",
-           head->ssn, head->name, head->dept, head->designation, head->sal, head->phNo);
+    printf("\nDeleted Data: SSN: %s, Name: %s, Dept: %s, Designation: %s, Salary: %.2f, PhNo: %s\n",
+           head->ssn, head->name, head->dept, head->designation, head->salary, head->phNo);
     head = head->next;
     if (head) {
         head->prev = NULL;
@@ -81,8 +80,8 @@ NodePtr deleteRear(NodePtr head) {
         return NULL;
     }
     if (!head->next) {
-        printf("\nDeleted Data: SSN: %s, Name: %s, Dept: %s, Designation: %s, Sal: %.2f, PhNo: %s\n",
-               head->ssn, head->name, head->dept, head->designation, head->sal, head->phNo);
+        printf("\nDeleted Data: SSN: %s, Name: %s, Dept: %s, Designation: %s, Salary: %.2f, PhNo: %s\n",
+               head->ssn, head->name, head->dept, head->designation, head->salary, head->phNo);
         free(head);
         return NULL;
     }
@@ -91,16 +90,16 @@ NodePtr deleteRear(NodePtr head) {
     while (temp->next) {
         temp = temp->next;
     }
-    printf("\nDeleted Data: SSN: %s, Name: %s, Dept: %s, Designation: %s, Sal: %.2f, PhNo: %s\n",
-           temp->ssn, temp->name, temp->dept, temp->designation, temp->sal, temp->phNo);
+    printf("\nDeleted Data: SSN: %s, Name: %s, Dept: %s, Designation: %s, Salary: %.2f, PhNo: %s\n",
+           temp->ssn, temp->name, temp->dept, temp->designation, temp->salary, temp->phNo);
     temp->prev->next = NULL;
     free(temp);
     return head;
 }
 
 void displayNode(NodePtr node) {
-    printf("SSN: %s, Name: %s, Dept: %s, Designation: %s, Sal: %.2f, PhNo: %s\n",
-           node->ssn, node->name, node->dept, node->designation, node->sal, node->phNo);
+    printf("SSN: %s, Name: %s, Dept: %s, Designation: %s, Salary: %.2f, PhNo: %s\n",
+           node->ssn, node->name, node->dept, node->designation, node->salary, node->phNo);
 }
 
 void displayAll(NodePtr head) {
