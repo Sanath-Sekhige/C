@@ -1,72 +1,92 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX_EMPLOYEES 10
+
 typedef struct employee {
-	int id;
-	char name[20];
-	int sal;
-}EMP;
-EMP emp[10];
-int a[10], empID[10], count = 0;
-int getemp(EMP emp[], int key, int ID) {
-	FILE* fp;
-	fp = fopen("out.txt", "a+");
-	emp[key].id = ID;
-	printf("\nEnter employee name and salary:\n");
-	scanf("%s%d", emp[key].name, &emp[key].sal);
-	fprintf(fp, "\n%d\t%s\t%d", emp[key].id, emp[key].name, emp[key].sal);
-	fclose(fp);
-	return key;
+    int id;
+    char name[20];
+    float salary;
+} Employee;
+
+Employee employees[MAX_EMPLOYEES];
+int hashTable[MAX_EMPLOYEES], employeeCount = 0;
+
+int addEmployee(int hashKey, int empID) {
+    FILE* file = fopen("open.txt", "a+");
+
+    employees[hashKey].id = empID;
+    printf("\nEnter employee name and salary: ");
+    scanf("%s %f", employees[hashKey].name, &employees[hashKey].salary);
+
+    fprintf(file, "%d\t%s\t%.2f\n", employees[hashKey].id, employees[hashKey].name, employees[hashKey].salary);
+    fclose(file);
+
+    return hashKey;
 }
-void display() {
-	int i;
-	printf("\nKey\tID\tName\tSalary");
-	for (i = 0; i < 10; i++)
-		if (a[i] != -1)
-			printf("\n%d\t%d\t%s\t%d", i, emp[i].id, emp[i].name, emp[i].sal);
+
+void displayHashTable() {
+    printf("\nHash Table:");
+    printf("\nKey\tID\tName\t\tSalary");
+    for (int i = 0; i < MAX_EMPLOYEES; i++) {
+        if (hashTable[i] != -1) {
+            printf("\n%d\t%d\t%-15s\t%.2f", i, employees[i].id, employees[i].name, employees[i].salary);
+        }
+    }
 }
-void probe(int key, int ID) {
-	int i = key, flag = 0;
-	if (count == 10) {
-		printf("Hash table is full.\n");
-		exit(0);
-	}
-	if (a[key] == -1) {
-		a[key] = getemp(emp, key, ID);
-		display();
-		count++;
-	}
-	else {
-		printf("\nCollision detected. Solving it with linear probing...\n");
-		while (a[i] != -1) {
-			i++;
-			if (i == 10) {
-				i = 0; // 1st change made here
-				while (i < key && a[i] != -1) // 2nd change made here
-					i++;
-			}
-		}
-		a[i] = getemp(emp, i, ID);
-		printf("\nCollision problem solved! Hash table:\n");
-		display();
-		count++;
-	}
+
+void handleCollision(int hashKey, int empID) {
+    int currentIndex = hashKey;
+
+    if (employeeCount == MAX_EMPLOYEES) {
+        printf("\nError: Hash table is full. Cannot add more employees.\n");
+        return;
+    }
+
+    if (hashTable[hashKey] == -1) {
+        hashTable[hashKey] = addEmployee(hashKey, empID);
+        employeeCount++;
+        displayHashTable();
+    } else {
+        printf("\nCollision detected at key %d. Resolving using linear probing...\n", hashKey);
+        while (hashTable[currentIndex] != -1) {
+            currentIndex = (currentIndex + 1) % MAX_EMPLOYEES;
+        }
+        hashTable[hashKey] = addEmployee(hashKey, empID);
+        employeeCount++;
+        printf("\nCollision resolved! Updated hash table:\n");
+        displayHashTable();
+    }
 }
-void main() {
-	int key, i, j = 0, ans = 1;
-	for (i = 0; i < 10; i++)
-		a[i] = -1;
-	do {
-		printf("\nEnter the employee ID: ");
-		scanf("%d", &empID[j]);
-		key = empID[j] % 10;
-		probe(key, empID[j]);
-		printf("\n\nDo you want to continue the input? (1=Yes | 0=No): ");
-		scanf("%d", &ans);
-		j++;
-	} while (ans);
-	display(emp);
-	for (i = 0; i < 10; i++)
-		if (a[i] != -1)
-			printf(" \t%d", a[i]);
-	printf("\n");
+
+int main() {
+    int hashKey, empID, continueInput = 1;
+
+    for (int i = 0; i < MAX_EMPLOYEES; i++) {
+        hashTable[i] = -1;
+    }
+
+    printf("Welcome to the Employee Management System using Hashing\n");
+
+    do {
+        printf("\nEnter the employee ID (positive integer): ");
+        scanf("%d", &empID);
+
+        hashKey = empID % MAX_EMPLOYEES;
+        handleCollision(hashKey, empID);
+
+        printf("\nDo you want to continue adding employees? (1=Yes, 0=No): ");
+        scanf("%d", &continueInput);
+    } while (continueInput);
+
+    printf("\nFinal Hash Table:\n");
+    displayHashTable();
+
+    printf("\nKeys in hash table: ");
+    for (int i = 0; i < MAX_EMPLOYEES; i++) {
+        if (hashTable[i] != -1) {
+            printf("%d ", hashTable[i]);
+        }
+    }
+    printf("\n");
+    return 0;
 }

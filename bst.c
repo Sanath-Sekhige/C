@@ -29,14 +29,14 @@ NodePtr insert(NodePtr root, int value) {
     return root;
 }
 
-NodePtr search(NodePtr root, int value) {
+void search(NodePtr root, int value) {
     if (!root) {
         printf("Value %d not found in the tree.\n", value);
-        return NULL;
+        return;
     }
     if (value == root->data) {
         printf("Value %d found in the tree.\n", value);
-        return root;
+        return;
     }
     if (value < root->data) {
         return search(root->left, value);

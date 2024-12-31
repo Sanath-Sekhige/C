@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #define MAX_VERTICES 10
 
-void bfs(int numVertices, int startVertex, int adjMatrix[][MAX_VERTICES], int visited[]) {
+int numVertices;
+int adjMatrix[MAX_VERTICES][MAX_VERTICES];
+int visited[MAX_VERTICES];
+
+void bfs(int startVertex) {
     int queue[MAX_VERTICES], front = 0, rear = -1, currentVertex;
 
     visited[startVertex] = 1;
@@ -16,7 +20,7 @@ void bfs(int numVertices, int startVertex, int adjMatrix[][MAX_VERTICES], int vi
         printf("Visited vertex: %d\n", currentVertex);
 
         for (int i = 0; i < numVertices; i++) {
-            if (adjMatrix[currentVertex][i] == 1 && !visited[i]) {
+            if (adjMatrix[currentVertex][i] && !visited[i]) {
                 queue[++rear] = i;
                 visited[i] = 1;
             }
@@ -24,69 +28,68 @@ void bfs(int numVertices, int startVertex, int adjMatrix[][MAX_VERTICES], int vi
     }
 }
 
-void dfs(int numVertices, int startVertex, int adjMatrix[][MAX_VERTICES], int visited[]) {
+void dfs(int startVertex) {
     visited[startVertex] = 1;
     printf("Visited vertex: %d\n", startVertex);
 
     for (int i = 0; i < numVertices; i++) {
-        if (adjMatrix[startVertex][i] == 1 && !visited[i]) {
-            dfs(numVertices, i, adjMatrix, visited);
+        if (adjMatrix[startVertex][i] && !visited[i]) {
+            dfs(i);
         }
     }
 }
 
-void inputGraph(int *numVertices, int adjMatrix[][MAX_VERTICES], int *startVertex) {
+void inputGraph(int *startVertex) {
     printf("\nEnter the number of vertices (max %d): ", MAX_VERTICES);
-    scanf("%d", numVertices);
+    scanf("%d", &numVertices);
 
     printf("\nEnter the adjacency matrix:\n");
-    for (int i = 0; i < *numVertices; i++) {
-        for (int j = 0; j < *numVertices; j++) {
+    for (int i = 0; i < numVertices; i++) {
+        for (int j = 0; j < numVertices; j++) {
             scanf("%d", &adjMatrix[i][j]);
         }
     }
 
     printf("\nThe adjacency matrix is:\n");
-    for (int i = 0; i < *numVertices; i++) {
-        for (int j = 0; j < *numVertices; j++) {
-            printf("%d\t", adjMatrix[i][j]);
+    for (int i = 0; i < numVertices; i++) {
+        for (int j = 0; j < numVertices; j++) {
+            printf("%d ", adjMatrix[i][j]);
         }
         printf("\n");
     }
 
-    printf("\nEnter the source vertex (0 to %d): ", *numVertices - 1);
+    printf("\nEnter the source vertex (0 to %d): ", numVertices - 1);
     scanf("%d", startVertex);
 }
 
-void resetVisited(int numVertices, int visited[]) {
+void resetVisited() {
     for (int i = 0; i < numVertices; i++) {
         visited[i] = 0;
     }
 }
 
 int main() {
-    int numVertices, adjMatrix[MAX_VERTICES][MAX_VERTICES], startVertex, visited[MAX_VERTICES] = {0};
-    int choice;
+    int startVertex, choice;
 
     while (1) {
-        inputGraph(&numVertices, adjMatrix, &startVertex);
+        inputGraph(&startVertex);
 
-        resetVisited(numVertices, visited);
+        resetVisited();
 
         printf("\nChoose the search algorithm:\n");
         printf("1 ---> Breadth-First Search (BFS)\n"
-                "2 ---> Depth-First Search (DFS)\n"
-                "3 ---> Exit\n");
+               "2 ---> Depth-First Search (DFS)\n"
+               "3 ---> Exit\n");
         printf("Enter your choice (1, 2, 3): ");
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1: bfs(numVertices, startVertex, adjMatrix, visited);
+            case 1: bfs(startVertex);
                     break;
-            case 2: dfs(numVertices, startVertex, adjMatrix, visited);
+            case 2: dfs(startVertex);
                     break;
             case 3: exit(0);
-            default: printf("\nInvalid choice, please try again.\n");
+            default: printf("\nInvalid choice\n");
         }
 
         printf("\nReachability status:\n");
