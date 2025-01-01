@@ -12,8 +12,6 @@ void bfs(int startVertex) {
     visited[startVertex] = 1;
     queue[++rear] = startVertex;
 
-    printf("\nBreadth-First Search (BFS) starting from vertex %d:\n", startVertex);
-
     while (front <= rear) {
         currentVertex = queue[front++];
 

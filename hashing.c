@@ -51,7 +51,7 @@ void handleCollision(int hashKey, int empID) {
         while (hashTable[currentIndex] != -1) {
             currentIndex = (currentIndex + 1) % MAX_EMPLOYEES;
         }
-        hashTable[hashKey] = addEmployee(hashKey, empID);
+        hashTable[currentIndex] = addEmployee(currentIndex, empID);
         employeeCount++;
         printf("\nCollision resolved! Updated hash table:\n");
         displayHashTable();
