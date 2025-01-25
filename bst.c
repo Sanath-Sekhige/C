@@ -39,9 +39,9 @@ void search(NodePtr root, int value) {
         return;
     }
     if (value < root->data) {
-        return search(root->left, value);
+        search(root->left, value);
     }
-    return search(root->right, value);
+    search(root->right, value);
 }
 
 NodePtr findMin(NodePtr root) {
@@ -129,7 +129,6 @@ int main() {
                 printf("\nEnter Data to Delete: ");
                 scanf("%d", &val);
                 root = delete(root, val);
-                printf("Value %d Deleted Successfully.\n", val);
                 break;
             }
             case 3: {
