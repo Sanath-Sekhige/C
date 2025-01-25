@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #define SIZE 5
 
-int Q_Full(int count) { 
+int DQ_Full(int count) { 
     return count == SIZE; 
 }
 
-int Q_Empty(int count) { 
+int DQ_Empty(int count) { 
     return !count; 
 }
 
 void insertRear(int DQ[], int* rear, int* count) {
-    if(Q_Full(*count)) {
+    if(DQ_Full(*count)) {
         printf("\nDEQUEUE FULL\n");
         return;
     }
@@ -24,7 +24,7 @@ void insertRear(int DQ[], int* rear, int* count) {
 }
 
 void deleteFront(int DQ[], int* front, int* count) {
-    if(Q_Empty(*count)) {
+    if(DQ_Empty(*count)) {
         printf("\nDEQUEUE EMPTY\n");
         return;
     }
@@ -34,7 +34,7 @@ void deleteFront(int DQ[], int* front, int* count) {
 }
 
 void insertFront(int DQ[], int* front, int* count) {
-    if(Q_Full(*count)) {
+    if(DQ_Full(*count)) {
         printf("\nDEQUEUE FULL\n");
         return;
     }
@@ -47,17 +47,17 @@ void insertFront(int DQ[], int* front, int* count) {
 }
 
 void deleteRear(int DQ[], int* rear, int* count) {
-    if(Q_Empty(*count)) {
+    if(DQ_Empty(*count)) {
         printf("\nDEQUEUE EMPTY\n");
         return;
     }
-    printf("\nValue Deleted: %d\n", DQ[*rear]); // Fixed print before update
+    printf("\nValue Deleted: %d\n", DQ[*rear]);
     *rear = (*rear - 1 + SIZE) % SIZE;
     (*count)--; 
 }
 
-void Q_Dis(int DQ[], int front, int count) {
-    if(Q_Empty(count)) {
+void DQ_Dis(int DQ[], int front, int count) {
+    if(DQ_Empty(count)) {
         printf("\nDEQUEUE EMPTY\n");
         return;
     }
@@ -90,7 +90,7 @@ int main() {
                     break;
             case 4: deleteRear(DQ, &rear, &count); 
                     break;
-            case 5: Q_Dis(DQ, front, count); 
+            case 5: DQ_Dis(DQ, front, count); 
                     break;
             case 6: exit(0);
             default: printf("\nINVALID CHOICE\n");
