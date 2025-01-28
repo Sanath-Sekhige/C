@@ -7,19 +7,17 @@ int adjMatrix[MAX_VERTICES][MAX_VERTICES];
 int visited[MAX_VERTICES];
 
 void bfs(int startVertex) {
-    int queue[MAX_VERTICES], front = 0, rear = -1, currentVertex;
+    int Q[MAX_VERTICES], front = 0, rear = -1, currentVertex;
 
     visited[startVertex] = 1;
-    queue[++rear] = startVertex;
+    Q[++rear] = startVertex;
 
-    while (front <= rear) {
-        currentVertex = queue[front++];
-
-        printf("Visited vertex: %d\n", currentVertex);
-
-        for (int i = 0; i < numVertices; i++) {
-            if (adjMatrix[currentVertex][i] && !visited[i]) {
-                queue[++rear] = i;
+    while(front <= rear) {
+        currentVertex = Q[front++];
+        printf("Visited Vertex %d\n", currentVertex);
+        for(int i = 0; i < MAX_VERTICES; i++) {
+            if(adjMatrix[currentVertex][i] && !visited[i]) {
+                Q[++rear] = i;
                 visited[i] = 1;
             }
         }
@@ -28,10 +26,9 @@ void bfs(int startVertex) {
 
 void dfs(int startVertex) {
     visited[startVertex] = 1;
-    printf("Visited vertex: %d\n", startVertex);
-
-    for (int i = 0; i < numVertices; i++) {
-        if (adjMatrix[startVertex][i] && !visited[i]) {
+    printf("Visited Vertex %d\n", startVertex);
+    for(int i = 0; i < MAX_VERTICES; i++) {
+        if(adjMatrix[startVertex][i] && !visited[i]) {
             dfs(i);
         }
     }
@@ -61,15 +58,14 @@ void inputGraph(int *startVertex) {
 }
 
 void resetVisited() {
-    for (int i = 0; i < numVertices; i++) {
+    for(int i = 0; i < MAX_VERTICES; i++) {
         visited[i] = 0;
     }
 }
 
 int main() {
-    int startVertex, choice;
-
-    while (1) {
+    int startVertex, choice, continueInput;
+    do {
         inputGraph(&startVertex);
 
         resetVisited();
@@ -81,13 +77,13 @@ int main() {
         printf("Enter your choice (1, 2, 3): ");
         scanf("%d", &choice);
 
-        switch (choice) {
-            case 1: bfs(startVertex);
-                    break;
-            case 2: dfs(startVertex);
-                    break;
-            case 3: exit(0);
-            default: printf("\nInvalid choice\n");
+        switch(choice) {
+            case 1 : bfs(startVertex);
+                     break;
+            case 2 : dfs(startVertex);
+                     break;
+            case 3 : exit(0);
+            default: printf("\nINVALID CHOICE\n");
         }
 
         printf("\nReachability status:\n");
@@ -98,7 +94,8 @@ int main() {
                 printf("Vertex %d is reachable from vertex %d.\n", i, startVertex);
             }
         }
-    }
-
+        printf("\nDo you want to continue? (1 = Yes | 0 = No): ");
+        scanf("%d", &continueInput);
+    } while(continueInput);
     return 0;
 }
