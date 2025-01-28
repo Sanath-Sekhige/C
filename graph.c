@@ -14,7 +14,7 @@ void bfs(int startVertex) {
 
     while(front <= rear) {
         currentVertex = Q[front++];
-        printf("Visited Vertex %d\n", currentVertex);
+        printf("\nVisited Vertex %d", currentVertex);
         for(int i = 0; i < MAX_VERTICES; i++) {
             if(adjMatrix[currentVertex][i] && !visited[i]) {
                 Q[++rear] = i;
@@ -26,7 +26,7 @@ void bfs(int startVertex) {
 
 void dfs(int startVertex) {
     visited[startVertex] = 1;
-    printf("Visited Vertex %d\n", startVertex);
+    printf("\nVisited Vertex %d", startVertex);
     for(int i = 0; i < MAX_VERTICES; i++) {
         if(adjMatrix[startVertex][i] && !visited[i]) {
             dfs(i);
@@ -88,11 +88,7 @@ int main() {
 
         printf("\nReachability status:\n");
         for (int i = 0; i < numVertices; i++) {
-            if (visited[i] == 0) {
-                printf("Vertex %d is not reachable from vertex %d.\n", i, startVertex);
-            } else {
-                printf("Vertex %d is reachable from vertex %d.\n", i, startVertex);
-            }
+            printf("\nVertex %d is %s from %d", i, visited[i] ? "Reachable" : "Not Reachable", startVertex);
         }
         printf("\nDo you want to continue? (1 = Yes | 0 = No): ");
         scanf("%d", &continueInput);
