@@ -8,8 +8,15 @@ int fib(int n) {
 
 int main() {
     int n;
-    printf("Enter a number: ");
+    printf("\nEnter A Number: ");
     scanf("%d", &n);
-    printf("%d Fibonacci Number: %d", n, fib(n));
+    printf("\nThe %dth Fibonacci number: %d\n", n, fib(n));
+    
+    printf("\nThe Fibonacci sequence:\n");
+    for(int i = 0; i <= n; i++) {
+        printf("%d ", fib(i));
+    }
+    printf("\n");
+
     return 0;
 }
